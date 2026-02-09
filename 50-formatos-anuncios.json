@@ -1,0 +1,563 @@
+{
+  "board": {
+    "nome": "50 Formatos de Anúncios",
+    "url": "https://trello.com/b/qwSAXcgv/50-formatos-de-anuncios",
+    "data_extracao": "2026-02-06",
+    "total_formatos": 50,
+    "total_cards": 58,
+    "listas": [
+      "IMPORTANTE",
+      "FORMATOS 01-10",
+      "FORMATOS 11-20",
+      "FORMATOS 21-30",
+      "FORMATOS 31-40",
+      "FORMATOS 41-50"
+    ]
+  },
+  "cards_importante": [
+    {
+      "titulo": "COMECE POR AQUI",
+      "descricao": "Seja bem-vindo(a)!\n\nTrês coisas importantes que você precisa saber:\n\n1. Se você não salvar o link desse quadro, terá que responder o formulário de novo pra conseguir acessar - então salve em um lugar fácil (de preferência, favorite no seu navegador).\n\n2. Todos os formatos estão em uma pasta do drive dentro do cartão do formato, não compartilhe com qualquer um.\n\n3. Você ganhou 3 bônus, acesse eles no cartão abaixo desse com o nome 'ACESSE OS BONUS AQUI'.",
+      "lista": "IMPORTANTE",
+      "labels": [],
+      "checklists": [],
+      "anexos": [
+        {
+          "name": "Inserts.png",
+          "url": "https://trello.com/1/cards/66be39101d9c871c22d31b1a/attachments/6961a75ba58059d5b1788048/download/Inserts.png"
+        }
+      ],
+      "url_card": "https://trello.com/c/bAobH9Pr"
+    },
+    {
+      "titulo": "ENTRE NO GRUPO",
+      "descricao": "Clique no link abaixo para entrar na comunidade\n\nhttps://chat.whatsapp.com/LKcvj7nepyhFQVBBI3lC6j",
+      "lista": "IMPORTANTE",
+      "labels": [],
+      "checklists": [],
+      "anexos": [
+        {
+          "name": "Inserts (3).png",
+          "url": "https://trello.com/1/cards/696c305fad8d47c07198d47d/attachments/696c307e4dbc66ef56ca8bea/download/Inserts_(3).png"
+        }
+      ],
+      "url_card": "https://trello.com/c/Szq4rAai"
+    },
+    {
+      "titulo": "ACESSE OS BONUS AQUI",
+      "descricao": "BONUS #01 - ADS SOCIETY\nClique no link abaixo para entrar na comunidade\nhttps://chat.whatsapp.com/LKcvj7nepyhFQVBBI3lC6j\n\nBONUS #02 - SWIPE FILE COMPLETO\nClique no link abaixo para acessar a pasta com +100 ads\nhttps://drive.google.com/drive/folders/1RhmMHVcjFft9yS-DgZedqzXZE9SXk_Ms?usp=drive_link\n\nBONUS #03 - PROMPT PARA ADAPTAR OS FORMATOS\nClique no link abaixo para acessar o prompt completo\nhttps://drive.google.com/file/d/1kfG7Yi_wtU9d1LUptzSnetR_EYZ7rXX5/view?usp=sharing",
+      "lista": "IMPORTANTE",
+      "labels": [],
+      "checklists": [],
+      "anexos": [
+        {
+          "name": "Inserts (2).png",
+          "url": "https://trello.com/1/cards/695ead52c17d9f9633515b90/attachments/6967e8d53092a4c0261f2e13/download/Inserts_(2).png"
+        }
+      ],
+      "url_card": "https://trello.com/c/RAILra42"
+    }
+  ],
+  "formatos": [
+    {
+      "numero": 1,
+      "titulo": "01 - Caixinha de perguntas",
+      "descricao": "O vídeo começa com uma pergunta (o gancho) que é a dor ou a dúvida da galera. Aí você, o criador, entra com a resposta, que é o anúncio. É um formato que a gente já tá acostumado, quebra o padrão e é perfeito pra mostrar a solução de um jeito bem pessoal e direto.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1xfx9IGW2iDXT0zIkiNF4r08p7Zd1HKfR?usp=drive_link",
+      "url_card": "https://trello.com/c/OgkL9sbf"
+    },
+    {
+      "numero": 2,
+      "titulo": "02 - POV",
+      "descricao": "O POV (Point of View) representa uma cena. É um jeito muito imersivo de mostrar a dor ou o problema antes de entregar a solução. A pessoa se sente parte da história na hora!",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1js4V8feX7qOsWRLiFGm7Bmsvtc-pMbnO?usp=drive_link",
+      "url_card": "https://trello.com/c/DfePccgt"
+    },
+    {
+      "numero": 3,
+      "titulo": "03 - Diálogo",
+      "descricao": "Aqui a gente tem dois ou mais personagens batendo um papo. Pode ser você e um amigo, ou até você mesmo no passado e no presente. É ótimo pra levantar as dúvidas da galera e quebrar as objeções de um jeito bem natural, mostrando a transformação que o seu produto/serviço traz.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1vM6YR0TRK_lLSZS-HkZW6lWuPmWO2XXP?usp=drive_link",
+      "url_card": "https://trello.com/c/vUGIWaMO"
+    },
+    {
+      "numero": 4,
+      "titulo": "04 - Choquei",
+      "descricao": "O formato usa manchetes sensacionalistas e um tom de urgência pra prender a atenção. Você apresenta o seu produto como a 'notícia bombástica' ou o 'escândalo' que, na verdade, é a grande sacada ou benefício que o público precisa saber.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/134d6kcMOm2TTgaUgz5HfK3Sxi0vQ9Os8?usp=drive_link",
+      "url_card": "https://trello.com/c/TwNlThKh"
+    },
+    {
+      "numero": 5,
+      "titulo": "05 - Notícia",
+      "descricao": "O vídeo simula um boletim de notícias ou reportagem. Você apresenta o produto/serviço como a 'solução noticiável' para um problema sério do mercado. Isso passa muita autoridade e credibilidade na hora.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1XwQfG6ly891oVxT__2TPkpRhkBsfre19?usp=drive_link",
+      "url_card": "https://trello.com/c/haB7Y6FG"
+    },
+    {
+      "numero": 6,
+      "titulo": "06 - Meme",
+      "descricao": "Use áudios ou vídeos virais (memes) para criar uma situação engraçada que se conecta com a dor do seu público. O humor é a chave: ele quebra a resistência e faz a mensagem ser mais compartilhável. O segredo é o meme fazer sentido com o que você está vendendo.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1O75axCXYWNMmZYz0QoXOc8ZnUKN--v55?usp=drive_link",
+      "url_card": "https://trello.com/c/k0eQU3ow"
+    },
+    {
+      "numero": 7,
+      "titulo": "07 - UGC em 1a Pessoa",
+      "descricao": "É o famoso 'conteúdo de usuário'. Você se filma com o celular, falando na moral, como se estivesse dando uma dica sincera para um amigo. O tom é super autêntico e informal, o que gera muita confiança, porque parece uma recomendação de quem realmente usou.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1hbRmmqvM-fpFpjB3kKwlEE6J_6k6UD09?usp=drive_link",
+      "url_card": "https://trello.com/c/E9lJDnqE"
+    },
+    {
+      "numero": 8,
+      "titulo": "08 - Tela dividida",
+      "descricao": "O vídeo é dividido em duas partes (ou mais), lado a lado. É o formato ideal para mostrar o 'Antes' e o 'Depois', o 'Certo' e o 'Errado'. É visualmente dinâmico e mostra o valor do seu produto na lata, pela comparação.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1XnZg4oWXJA1c0W_NkzHTxgy2cn16IeHn?usp=drive_link",
+      "url_card": "https://trello.com/c/BflTi2qc"
+    },
+    {
+      "numero": 9,
+      "titulo": "09 - Fofoca",
+      "descricao": "Você se dirige ao público como se fosse contar um segredo bombástico ou uma fofoca exclusiva. Isso cria um senso de curiosidade e exclusividade. O 'segredo' que você revela é o seu produto ou a estratégia que você usa para ter sucesso.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1mxyIJQkKekdlEfFxhIG1OOgjt59buXy9?usp=drive_link",
+      "url_card": "https://trello.com/c/VTosCStW"
+    },
+    {
+      "numero": 10,
+      "titulo": "10 - React",
+      "descricao": "Você reage a um conteúdo de outra pessoa (um vídeo, um tweet, uma notícia) que tem a ver com o seu nicho. Sua reação é o ponto de partida para discutir o problema e, claro, apresentar o seu produto como a solução. Pega carona em conteúdo viral para chamar a atenção.",
+      "lista": "FORMATOS 01-10",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1te4Ntd0Ll-Y1VSQqcF30B-tRZBgZ9ue6?usp=drive_link",
+      "url_card": "https://trello.com/c/Fd5oL0HV"
+    },
+    {
+      "numero": 11,
+      "titulo": "11 - UGC em 3a Pessoa",
+      "descricao": "É o conteúdo de usuário, mas filmado por outra pessoa. Mostra você em ação, usando o produto ou vivendo o benefício. A visão de fora dá um ar mais 'profissional' ou de 'mini-documentário' e deixa a demonstração do produto bem clara.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/10lqmxLfjq201t4ObIkLin22yixahzLeD?usp=drive_link",
+      "url_card": "https://trello.com/c/GO74397l"
+    },
+    {
+      "numero": 12,
+      "titulo": "12 - Esquete",
+      "descricao": "Uma cena curta e engraçada que exagera a dor ou o problema do público. O ponto alto da esquete é quando o seu produto/serviço entra em cena como o herói que salva o dia. O humor é a arma principal para prender a atenção.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1eklsl1quNMOCrEFAHXzL27DC-nYInuE1?usp=drive_link",
+      "url_card": "https://trello.com/c/OFzMxmHc"
+    },
+    {
+      "numero": 13,
+      "titulo": "13 - Fala e Faz",
+      "descricao": "Você fala sobre um assunto importante (uma dica, uma estratégia) enquanto faz alguma ação visualmente interessante (tipo arrumar a casa, fazer um café chique). A ação secundária prende o olhar da galera enquanto você entrega a mensagem principal.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1_bn-sFb4xKllIWG2n-tCV5JrtXf0KwZF?usp=drive_link",
+      "url_card": "https://trello.com/c/eoUtviSA"
+    },
+    {
+      "numero": 14,
+      "titulo": "14 - Depoimento",
+      "descricao": "Um cliente de verdade (ou alguém que parece muito) conta a experiência positiva com seu produto. O foco é na prova social e em como ele superou as objeções. A estrutura é sempre a mesma: Como era a vida antes -> O que mudou com o produto -> O resultado incrível.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1wfz8KfwuRyHf5eUiPlheOkB6fyZKAB12?usp=drive_link",
+      "url_card": "https://trello.com/c/jPiny8tg"
+    },
+    {
+      "numero": 15,
+      "titulo": "15 - Experimento Social",
+      "descricao": "Você faz um teste ou experimento na rua (ou em público) para provar um ponto ou mostrar na prática como seu produto funciona. Isso gera muita curiosidade e prova o valor do produto de um jeito que ninguém pode negar.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/19nAYYxRBPxkHee6KbFzAHRCvtOQU44JE?usp=drive_link",
+      "url_card": "https://trello.com/c/zo3rZGNi"
+    },
+    {
+      "numero": 16,
+      "titulo": "16 - Tela verde",
+      "descricao": "Use o famoso chroma key (tela verde) para aparecer em cenários diferentes ou reagir a imagens e vídeos que surgem atrás de você. É super versátil para tutoriais, apresentações dinâmicas ou para simular ambientes que seriam caríssimos de filmar de verdade.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1oyF2caEfcm2FhbgUryhQWr9xk4rSs1R_?usp=drive_link",
+      "url_card": "https://trello.com/c/s9dd8Ky2"
+    },
+    {
+      "numero": 17,
+      "titulo": "17 - Palestrinha",
+      "descricao": "Você assume o tom de autoridade e dá uma mini-aula ou palestra sobre um tema. É o formato ideal para educar a galera sobre o problema, quebrar aquelas crenças limitantes e posicionar seu produto como a solução definitiva.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1lAaujyl9GQNWcotJgVfoGPeeuNH6qRHG?usp=sharing",
+      "url_card": "https://trello.com/c/KCudJltH"
+    },
+    {
+      "numero": 18,
+      "titulo": "18 - Telepatia",
+      "descricao": "Você 'adivinha' o que o público ta pensando (a dor, a objeção, o desejo). Começa com frases tipo 'Eu sei o que você ta pensando...' ou 'Cansado de...'. Cria uma conexão imediata porque mostra que você entende o que a pessoa está passando.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1KWY6BZx8kP4JDx6Jao92ChP0KQCQOWOj?usp=drive_link",
+      "url_card": "https://trello.com/c/YuhwYmhr"
+    },
+    {
+      "numero": 19,
+      "titulo": "19 - Análise",
+      "descricao": "Você analisa um produto, uma estratégia ou até um concorrente, e usa essa análise como gancho para apresentar o seu produto como a alternativa muito melhor ou a peça que faltava. Mostra que você manja do mercado e tem autoridade.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/10Xq6dsn0f3c33T1eEOVqWSoIkbgHCEgD?usp=drive_link",
+      "url_card": "https://trello.com/c/njW0MMuw"
+    },
+    {
+      "numero": 20,
+      "titulo": "20 - Google Meet",
+      "descricao": "Simula uma reunião online (Meet, Zoom, etc.) onde você está apresentando o produto para um 'cliente' ou 'equipe'. Dá um ar profissional e de bastidores, ótimo para fazer demonstrações detalhadas ou quebrar objeções como se fosse uma conversa de negócios.",
+      "lista": "FORMATOS 11-20",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1nRX6605pDyLvmHsMFKTFMEuEUhBhv-u2?usp=drive_link",
+      "url_card": "https://trello.com/c/UEDobyWC"
+    },
+    {
+      "numero": 21,
+      "titulo": "21 - Telemarketing",
+      "descricao": "Uma paródia de ligação de telemarketing. O tom pode ser engraçado (tirando sarro da insistência) ou super direto e urgente. Usa a familiaridade da situação para prender a atenção, e o seu produto é a 'oferta irrecusável' que aparece no final.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1UWNDYH9xG7NkdKfZEirdTNfOkR_5PuoK?usp=drive_link",
+      "url_card": "https://trello.com/c/6AEtKd7W"
+    },
+    {
+      "numero": 22,
+      "titulo": "22 - POV + Meme",
+      "descricao": "É a mistura perfeita: a imersão do POV (você está na cena) com o humor e a viralidade do Meme. O espectador vive a situação e a solução (ou a reação) é dada com um áudio/visual de meme. Engajamento máximo garantido!",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1H8q8DqFgARQZkx3wFc9FmgawLAxwNsRe?usp=drive_link",
+      "url_card": "https://trello.com/c/vME4pTcK"
+    },
+    {
+      "numero": 23,
+      "titulo": "23 - LO-FI",
+      "descricao": "Vídeos com aquela estética mais relax ('low fidelity'), com filtros vintage, cores mais apagadas e uma trilha sonora calma (lo-fi hip hop). É usado para criar um clima de reflexão, mostrando o produto de um jeito mais 'artístico' e menos agressivo, quase como um momento de paz.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1t-oAZlKnCM084YkocGeJEdhhiRNSicBj?usp=drive_link",
+      "url_card": "https://trello.com/c/K4TUS3RQ"
+    },
+    {
+      "numero": 24,
+      "titulo": "24 - Corte de Podcast",
+      "descricao": "Simula um trecho de um podcast ou entrevista. Você (ou um convidado) está discutindo um tema e, de repente, o produto/serviço entra na conversa como a solução ou um exemplo prático. Transmite autoridade e profundidade, como se fosse um insight de especialista.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1lg7I9ROtqUZaLVwyjg3dUwTC28_Ws3V5?usp=drive_link",
+      "url_card": "https://trello.com/c/BHLEhcNp"
+    },
+    {
+      "numero": 25,
+      "titulo": "25 - Top 5 (ranking)",
+      "descricao": "Você faz uma lista numerada (Top 3, Top 5, etc.) de dicas, erros ou ferramentas. O seu produto/serviço é sempre o item mais importante da lista, ou a lista serve para educar a galera até o Call to Action final.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1HFDrCu78-8DvlxzMLytfJRZryHVmKiQV?usp=drive_link",
+      "url_card": "https://trello.com/c/4Pusry04"
+    },
+    {
+      "numero": 26,
+      "titulo": "26 - Conversa no Carro",
+      "descricao": "Você se filma dentro do carro, como se estivesse tendo um momento de reflexão ou desabafo. A informalidade do carro cria uma intimidade e a sensação de que você está compartilhando um pensamento sincero e espontâneo com o público.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1L766wcO_0qcvy6cMTB45x-Tf3QhnVQQo?usp=drive_link",
+      "url_card": "https://trello.com/c/fxov2Sbo"
+    },
+    {
+      "numero": 27,
+      "titulo": "27 - Diálogo de Gêmeos",
+      "descricao": "Você interpreta dois personagens (o 'eu' que ta na pior e o 'eu' que ta na boa), usando roupas ou edições diferentes. É um jeito rápido e divertido de quebrar objeções e mostrar a transformação que o produto traz.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1SaAA5GSs0Yvw-rmADkeacsenRai42Zfl?usp=drive_link",
+      "url_card": "https://trello.com/c/5nH2UKcd"
+    },
+    {
+      "numero": 28,
+      "titulo": "28 - Mensagem",
+      "descricao": "O vídeo simula a tela de um app de mensagens (WhatsApp, DM do Insta). O anúncio é uma conversa de texto, onde o seu produto é a resposta perfeita para a dúvida ou o problema de um contato. É um formato que a gente vê todo dia, então prende a atenção.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1Xg9kLaB3OIF9RM2eeOyC3viNeGtOKvHH?usp=drive_link",
+      "url_card": "https://trello.com/c/0MUG2xr0"
+    },
+    {
+      "numero": 29,
+      "titulo": "29 - Passo a passo",
+      "descricao": "Um tutorial rápido que ensina a galera a fazer algo. O seu produto/serviço é a ferramenta secreta ou a etapa que torna o processo muito mais fácil. É um formato que entrega valor na hora, o que é ótimo para o público.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1VDM9Z24_E60mtUtZuS6AkWL24GBocRZH?usp=drive_link",
+      "url_card": "https://trello.com/c/rrNNtxkG"
+    },
+    {
+      "numero": 30,
+      "titulo": "30 - Copy no papel",
+      "descricao": "Você escreve a copy (o texto de venda) do anúncio em um papel, enquanto narra o por que daquelas palavras. Atrai quem curte dicas de escrita e dá um ar de 'bastidores' e 'processo criativo' para o seu anúncio.",
+      "lista": "FORMATOS 21-30",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1NTHQUaHC6Nq7mT5-ECQac3HKl8DHdgFo?usp=drive_link",
+      "url_card": "https://trello.com/c/6LVwbtj7"
+    },
+    {
+      "numero": 31,
+      "titulo": "31 - Cinema",
+      "descricao": "O vídeo tem qualidade de cinema (luz top, trilha épica, ângulos dramáticos). É para criar uma experiência aspiracional e associar seu produto a um valor altíssimo, contando uma história emocionante.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1WNvAI6yk7Zjv3Ctw-WxeiRcrzzq8Mh1k?usp=drive_link",
+      "url_card": "https://trello.com/c/bPMBeoiL"
+    },
+    {
+      "numero": 32,
+      "titulo": "32 - ASMR",
+      "descricao": "Use sons suaves e relaxantes (sussurros, toques, barulhos de embalagem) para criar uma experiência sensorial. É ótimo para mostrar a textura, o som ou o processo de uso do produto de forma calma e detalhada.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1f2L5UTb-D27vtXZ_pYQFc9p7-RdXzWw_?usp=drive_link",
+      "url_card": "https://trello.com/c/mQLBvq1F"
+    },
+    {
+      "numero": 33,
+      "titulo": "33 - Live",
+      "descricao": "Simula um trecho de uma live (transmissão ao vivo). Você interage com comentários (fictícios), responde perguntas e, de forma orgânica, apresenta o produto. Passa autenticidade e a sensação de que o público está recebendo uma informação exclusiva.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/18JHMojLVr9NnmMS8eFJMkYGuqImttXyn?usp=drive_link",
+      "url_card": "https://trello.com/c/vEbx9Kml"
+    },
+    {
+      "numero": 34,
+      "titulo": "34 - Analogia",
+      "descricao": "Você usa uma comparação com algo que todo mundo conhece (um objeto, uma situação) para explicar o benefício ou a funcionalidade do seu produto. Ajuda a galera a entender coisas complexas de um jeito simples e que fica na memoria.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/16sb0c40Le3hYEUrLrHXpRcl7ajSfAcs_?usp=drive_link",
+      "url_card": "https://trello.com/c/axFHBeQ3"
+    },
+    {
+      "numero": 35,
+      "titulo": "35 - Receita",
+      "descricao": "O vídeo simula uma receita de cozinha, mas os 'ingredientes' são os passos para alcançar um resultado (Ex: 'Receita para ter sucesso em X'). O seu produto/serviço é o 'ingrediente secreto' que garante o sucesso da receita.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1WYfBfV6VR8NTBAL2vBEK-DjC6WzQNPye?usp=drive_link",
+      "url_card": "https://trello.com/c/g6UHUbbu"
+    },
+    {
+      "numero": 36,
+      "titulo": "36 - Tweet",
+      "descricao": "O vídeo mostra um tweet que viralizou ou que fala sobre uma dor do público. Você reage a ele, usando o tweet como ponto de partida para a discussão e a apresentação do seu produto como a solução para o problema levantado no texto.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1WxBKskaajMSKb-ypLzE6MhLVQ9OczhsG?usp=drive_link",
+      "url_card": "https://trello.com/c/pMQsSiov"
+    },
+    {
+      "numero": 37,
+      "titulo": "37 - Oferta Direta",
+      "descricao": "Sem enrolação! O vídeo vai direto ao ponto: apresenta o produto, os benefícios e o Call to Action (CTA) para a compra, muitas vezes com um senso de urgência (tipo 'só hoje'). É o formato mais tradicional de vendas, focado em conversão.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/182zfSB5xD3x8LdlKSeTYaWUYwMyLG6dK?usp=drive_link",
+      "url_card": "https://trello.com/c/3Ckgk84P"
+    },
+    {
+      "numero": 38,
+      "titulo": "38 - Story",
+      "descricao": "Simula a estética de um story do Instagram. O vídeo é curto, vertical, com legendas dinâmicas, emojis e um tom bem informal. É ideal para comunicação rápida, lembretes ou para criar aquela sensação de proximidade com o público.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1hDpvuGfuzdEhF2h5OzbVeuZtS0U95FRj?usp=drive_link",
+      "url_card": "https://trello.com/c/PuLnEZuT"
+    },
+    {
+      "numero": 39,
+      "titulo": "39 - Serie (dia 1, 2...)",
+      "descricao": "O anúncio é apresentado como um 'episódio' de uma série ('dia 01 fazendo X'). O vídeo termina com um gancho (cliffhanger) que te obriga a clicar para ver a 'continuação' (que é a página de vendas). Cria curiosidade e um arco narrativo que prende a atenção.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1x-wIln1_5_OyfnKBg9HhmqlDTUGyxnXM?usp=drive_link",
+      "url_card": "https://trello.com/c/LmceUi4n"
+    },
+    {
+      "numero": 40,
+      "titulo": "40 - Edit",
+      "descricao": "É uma montagem super rápida de cenas, com cortes secos e sincronizados com a batida da música. O foco é na estética e na energia. Use para mostrar o produto em vários contextos ou para criar um senso de movimento e modernidade.",
+      "lista": "FORMATOS 31-40",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1xBIPd23TwtuRyLl0BixqWlQV0iTwM21M?usp=drive_link",
+      "url_card": "https://trello.com/c/d5oPYOFR"
+    },
+    {
+      "numero": 41,
+      "titulo": "41 - Rotina",
+      "descricao": "Você mostra sua rotina (ou parte dela), e o produto/serviço entra de forma natural como algo que facilita a sua vida. Passa autenticidade e mostra na prática como o produto é usado no dia a dia.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1dz_0gybhYAywTsnduynHKwQRiMNnSc39?usp=drive_link",
+      "url_card": "https://trello.com/c/cCvcJhGm"
+    },
+    {
+      "numero": 42,
+      "titulo": "42 - POV + Depoimento",
+      "descricao": "Combinação poderosa: a imersão do POV (você sente a dor) com a prova social do Depoimento. O vídeo começa em POV, mostrando o problema, e logo corta para um depoimento que valida a dor e apresenta a solução.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1qg3eUSd3l9wFKBEWmJSM_QHzcLzMI-Ty?usp=drive_link",
+      "url_card": "https://trello.com/c/nYI0flFm"
+    },
+    {
+      "numero": 43,
+      "titulo": "43 - Certo VS Errado",
+      "descricao": "O vídeo compara duas abordagens: a 'Errada' (que dá tudo errado) e a 'Certa' (que usa o seu produto e dá certo). É um formato didático que mostra o valor do seu produto na hora, pelo contraste.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1CTxdDnqE7nMh82LrxAdZtzm8u6V9044y?usp=drive_link",
+      "url_card": "https://trello.com/c/Qd56WS1p"
+    },
+    {
+      "numero": 44,
+      "titulo": "44 - Trivial",
+      "descricao": "Você faz perguntas de curiosidades (trivia) sobre o seu nicho. O seu produto/serviço é apresentado como a resposta para uma das perguntas ou como a ferramenta que te ajuda a acertar tudo.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1bDJu0ri6LUvvOI1Cn0lK86h1JRGHJKC7?usp=drive_link",
+      "url_card": "https://trello.com/c/Ou2pcB6P"
+    },
+    {
+      "numero": 45,
+      "titulo": "45 - The Office",
+      "descricao": "Simula o estilo falso documentário (mockumentary) da série The Office. Você fala direto para a câmera, num 'confessionário', comentando a situação de forma irônica ou exagerada. É ótimo para usar o humor e humanizar a marca.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1cd3O6T4ogm7eCu4dm653ZWV__As0BwPD?usp=drive_link",
+      "url_card": "https://trello.com/c/5nr20Rvj"
+    },
+    {
+      "numero": 46,
+      "titulo": "46 - TikTok",
+      "descricao": "Usa a estética e os áudios virais do TikTok. O vídeo é super dinâmico, com cortes rápidos, legendas na tela e um ritmo acelerado. É o formato ideal para pegar a atenção de um público mais jovem e quebrar o padrão de anúncio chato.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1d7afoFFL0iOx76HX_-9XCyih2i7BWkOV?usp=drive_link",
+      "url_card": "https://trello.com/c/OcxG8zLO"
+    },
+    {
+      "numero": 47,
+      "titulo": "47 - Leia a legenda",
+      "descricao": "O vídeo é curto e misterioso, com uma mensagem incompleta que te força a ler a legenda para entender o que está acontecendo. A legenda é onde está a copy principal e a oferta. É um ótimo truque para levar o público para o texto de vendas.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1jTPOzIygIfrReWUxnGNIBhS0B7gRwEKD?usp=drive_link",
+      "url_card": "https://trello.com/c/FugTk1Os"
+    },
+    {
+      "numero": 48,
+      "titulo": "48 - Entrevista",
+      "descricao": "Você entrevista um especialista (ou um cliente) sobre um tema ligado ao seu produto. O produto é apresentado como a solução ou o resultado da discussão. Transmite autoridade e prova social de um jeito mais formal.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1zBK4-kJ27W8D4EAjppQE17fIpa8Bgy_s?usp=drive_link",
+      "url_card": "https://trello.com/c/jkQA1yiM"
+    },
+    {
+      "numero": 49,
+      "titulo": "49 - Jornal Nacional",
+      "descricao": "Uma paródia do Jornal Nacional. O tom é sério e formal, mas a 'notícia' é sobre o seu produto/serviço. Usar um formato de alta credibilidade como esse transfere essa autoridade para a sua mensagem.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1cOdMDsFMjnb1_dedselYCDcRoumHrG-t?usp=drive_link",
+      "url_card": "https://trello.com/c/6VRpuwZi"
+    },
+    {
+      "numero": 50,
+      "titulo": "50 - Anjinho VS Diabinho",
+      "descricao": "Você está em uma situação de decisão, e o 'Anjinho' (que te dá a ideia certa, o produto) e o 'Diabinho' (que te dá a ideia errada, a objeção) aparecem nos seus ombros. É um diálogo interno que dramatiza a luta do cliente na hora de tomar a decisão de compra.",
+      "lista": "FORMATOS 41-50",
+      "labels": [],
+      "checklists": [],
+      "link_exemplos": "https://drive.google.com/drive/folders/1lPm8c0rFcR6fFTe8uPnlgaTZ7xdEu5d5?usp=drive_link",
+      "url_card": "https://trello.com/c/Wz4Mg3Lr"
+    }
+  ]
+}
