@@ -1,16 +1,41 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, Gift, BookOpen, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import CreativeCard from "@/components/dashboard/CreativeCard";
-import CreativeModal from "@/components/dashboard/CreativeModal";
+import { ExternalLink } from "lucide-react";
 import { Creative } from "@/types";
 import trelloData from "@/50-formatos-anuncios.json";
+import CreativeCardV2 from "@/components/v2/CreativeCardV2";
+import CreativeModalV2 from "@/components/v2/CreativeModalV2";
 
-// Dados REAIS extraídos do Trello (100% aderente)
+// Mapeamento de exemplos embeddáveis (IDs do Google Drive)
+const EXAMPLES_MAP: Record<number, { id: string; name: string; type: "video" | "image" }[]> = {
+  1: [
+    { id: "1depRw5BrLJSbBLo6i6-AKPiuRAt_hYyO", name: "F1.1.mp4", type: "video" },
+    { id: "1a2JaFHx0sWYP2GsHWlR-37Cy8Qh_Oh1-", name: "F1.2.mp4", type: "video" },
+    { id: "14n7y5j47TxsaYwVtLtWzYZWAXXW6nL0f", name: "F1.3.mp4", type: "video" },
+  ],
+  2: [
+    { id: "1a6mxXfXrGC1nUc7my8tTYZBgDSpr05JZ", name: "F2.1.mp4", type: "video" },
+    { id: "1R3pDJe_cDm56VGTXmVvRQxAiFDHjM1j_", name: "F2.2.mp4", type: "video" },
+  ],
+  3: [
+    { id: "1ZwZByFT0xICaLn_LZK0nTDRlHFzIyRsZ", name: "F3.1.mp4", type: "video" },
+    { id: "1SA7A6CVCekjb7YLxL_SQf3KSfbVeO5mq", name: "F3.2.mp4", type: "video" },
+    { id: "1p9ij8xAEehSQG2Jttjrz9t52ubhUi3rp", name: "F3.3.mp4", type: "video" },
+    { id: "1eixOrAxqV9KQRdrJjvxy21ej9IwiT1r1", name: "F3.4.mp4", type: "video" },
+    { id: "1kkAGzWTZz4uInI319w86RZh0LUg-Azn_", name: "F3.5.mp4", type: "video" },
+  ],
+  4: [
+    { id: "1u6qu7yboy5IOawHtDRHjj-VYI6ZO-Ztq", name: "F4.1.mp4", type: "video" },
+    { id: "1Tjd2_iQPRONynge2IjH7s0y_gNvaosxK", name: "F4.2.mp4", type: "video" },
+  ],
+  5: [
+    { id: "1U99g7IJL_O-NoSA4WLhFX7c1_PswoeJ-", name: "F5.1.jpg", type: "image" },
+    { id: "1zwCkP-1rRNB2VeOxBdyX12tzZlhmN_XT", name: "F5.2.jpg", type: "image" },
+  ],
+};
+
 const CREATIVES: Creative[] = trelloData.formatos.map((formato) => ({
   id: `creative-${formato.numero}`,
   title: formato.titulo,
@@ -20,16 +45,16 @@ const CREATIVES: Creative[] = trelloData.formatos.map((formato) => ({
   explanation: formato.descricao,
   howToApply: undefined,
   exampleUrl: formato.link_exemplos,
+  examples: EXAMPLES_MAP[formato.numero],
 }));
 
-// Links dos bônus extraídos do Trello
 const BONUS_LINKS = {
   comunidade: "https://chat.whatsapp.com/LKcvj7nepyhFQVBBI3lC6j",
   swipeFile: "https://drive.google.com/drive/folders/1RhmMHVcjFft9yS-DgZedqzXZE9SXk_Ms?usp=drive_link",
   prompt: "https://drive.google.com/file/d/1kfG7Yi_wtU9d1LUptzSnetR_EYZ7rXX5/view?usp=sharing",
 };
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 20;
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -48,32 +73,20 @@ export default function DashboardPage() {
     setEmail(userEmail);
   }, [router]);
 
-  // Infinite Scroll Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && displayedCount < CREATIVES.length) {
-          setDisplayedCount(prev => Math.min(prev + ITEMS_PER_PAGE, CREATIVES.length));
+          setDisplayedCount((prev) => Math.min(prev + ITEMS_PER_PAGE, CREATIVES.length));
         }
       },
       { threshold: 0.1, rootMargin: "100px" }
     );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
+    if (observerTarget.current) observer.observe(observerTarget.current);
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
+      if (observerTarget.current) observer.unobserve(observerTarget.current);
     };
   }, [displayedCount]);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem("userEmail");
-    router.push("/");
-  };
 
   const handleCreativeClick = (creative: Creative) => {
     setSelectedCreative(creative);
@@ -89,130 +102,168 @@ export default function DashboardPage() {
   const hasMore = displayedCount < CREATIVES.length;
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden">
-      {/* Serraglio background effects */}
-      <div className="fixed top-0 right-1/4 w-[500px] h-[500px] max-w-[50vw] bg-gradient-to-br from-serraglio-orange/15 via-serraglio-orangeLight/8 to-transparent rounded-full blur-3xl animate-float pointer-events-none"></div>
-      <div className="fixed bottom-0 left-1/4 w-[500px] h-[500px] max-w-[50vw] bg-gradient-to-tl from-serraglio-orangeDark/12 via-serraglio-orange/6 to-transparent rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
+    <div className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+      {/* Background warm glow - corners */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background: [
+            "radial-gradient(ellipse 60% 50% at 0% 100%, rgba(160,60,0,0.3) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 100% 100%, rgba(160,60,0,0.25) 0%, transparent 70%)",
+            "radial-gradient(ellipse 40% 30% at 50% 100%, rgba(140,40,0,0.15) 0%, transparent 60%)",
+          ].join(", "),
+        }}
+      />
 
-      <div className="relative z-10">
-        {/* Header with Serraglio branding */}
-        <header className="border-b border-white/10 bg-black/90 backdrop-blur-xl sticky top-0 z-20">
-          <div className="max-w-7xl mx-auto px-4 py-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div>
-                  <h1 className="font-display text-2xl font-black text-white tracking-tight">
-                    50 Formatos de <span className="gradient-serraglio-text">Criativos</span>
-                  </h1>
-                  <p className="text-sm text-gray-500 mt-0.5">{email}</p>
+      <div className="relative z-10 w-full px-4 py-8">
+        {/* ── HEADER ── */}
+        <header className="border border-white/[0.12] rounded-2xl bg-black/60 mb-4 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-5">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <div className="flex-shrink-0 w-12 h-12">
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_2px_8px_rgba(255,77,0,0.4)]">
+                  <path
+                    d="M50,7 Q63,1 71,13 Q85,13 86,28 Q98,36 92,50 Q98,64 86,72 Q85,87 71,87 Q63,99 50,93 Q37,99 29,87 Q15,87 14,72 Q2,64 8,50 Q2,36 14,28 Q15,13 29,13 Q37,1 50,7 Z"
+                    fill="#ff4d00"
+                  />
+                  <text x="50" y="52" textAnchor="middle" dominantBaseline="middle" fill="white" fontFamily="League Spartan, sans-serif" fontWeight="900" fontSize="40">
+                    50
+                  </text>
+                </svg>
+              </div>
+              <div>
+                <div className="font-display font-black text-white text-2xl leading-none uppercase tracking-tight">
+                  FORMATOS
+                </div>
+                <div className="font-sans text-white/50 text-sm font-light leading-tight">
+                  que escalam
                 </div>
               </div>
-
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="gap-2 font-display font-bold"
-              >
-                <LogOut className="w-4 h-4" />
-                Sair
-              </Button>
             </div>
+
+            {/* Nav links */}
+            <nav className="hidden sm:flex items-center gap-5">
+              <span className="font-display font-bold text-white/30 text-sm uppercase tracking-widest cursor-default">
+                Suporte
+              </span>
+              <span className="text-white/20">|</span>
+              <button
+                onClick={() => window.open(BONUS_LINKS.comunidade, "_blank")}
+                className="font-display font-bold text-white/80 text-sm hover:text-[#ff4d00] transition-colors duration-150 uppercase tracking-widest"
+              >
+                Grupo
+              </button>
+            </nav>
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 py-10">
-          {/* Welcome Banner - Apple minimalist */}
-          <Card className="border border-serraglio-orange/20 bg-black/40 p-8 mb-10 rounded-2xl backdrop-blur-xl">
-            <h2 className="font-display text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">
-              Bem-vindo à sua Biblioteca de <span className="gradient-serraglio-text">Criativos!</span>
-            </h2>
-            <p className="text-gray-300 text-base md:text-lg mb-6 leading-relaxed">
-              Você tem acesso a <span className="text-serraglio-orange font-bold">50 formatos validados</span> e testados que geram resultados.
-              Clique em qualquer criativo para ver detalhes, exemplos e como aplicar.
-            </p>
-
-            {/* Bonus Buttons - Serraglio style */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <Button
-                variant="outline"
-                className="h-auto py-3 px-4 justify-start gap-3 border border-serraglio-orange/30 hover:border-serraglio-orange/35 hover:bg-white/5 rounded-xl backdrop-blur-sm transition-all duration-200"
-                onClick={() => window.open(BONUS_LINKS.comunidade, "_blank")}
-              >
-                <Gift className="w-6 h-6 text-serraglio-orange flex-shrink-0" />
-                <div className="text-left">
-                  <div className="font-display font-bold text-white">Comunidade ADS</div>
-                  <div className="text-xs text-gray-400">WhatsApp Exclusivo</div>
-                </div>
-              </Button>
-
-              <Button
-                variant="outline"
-                className="h-auto py-3 px-4 justify-start gap-3 border border-serraglio-orange/30 hover:border-serraglio-orange/35 hover:bg-white/5 rounded-xl backdrop-blur-sm transition-all duration-200"
-                onClick={() => window.open(BONUS_LINKS.swipeFile, "_blank")}
-              >
-                <BookOpen className="w-6 h-6 text-serraglio-orange flex-shrink-0" />
-                <div className="text-left">
-                  <div className="font-display font-bold text-white">Swipe File</div>
-                  <div className="text-xs text-gray-400">+100 Ads Validados</div>
-                </div>
-              </Button>
-
-              <Button
-                variant="outline"
-                className="h-auto py-3 px-4 justify-start gap-3 border border-serraglio-orange/30 hover:border-serraglio-orange/35 hover:bg-white/5 rounded-xl backdrop-blur-sm transition-all duration-200"
-                onClick={() => window.open(BONUS_LINKS.prompt, "_blank")}
-              >
-                <Zap className="w-6 h-6 text-serraglio-orange flex-shrink-0" />
-                <div className="text-left">
-                  <div className="font-display font-bold text-white">Prompt IA</div>
-                  <div className="text-xs text-gray-400">Adapte os Formatos</div>
-                </div>
-              </Button>
-            </div>
-          </Card>
-
-          {/* Creatives Grid */}
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {displayedCreatives.map((creative) => (
-              <CreativeCard
+        {/* ── GRID CONTAINER ── */}
+        <div className="border border-white/[0.12] rounded-2xl bg-black/40 p-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {displayedCreatives.map((creative, index) => (
+              <CreativeCardV2
                 key={creative.id}
                 creative={creative}
                 onClick={() => handleCreativeClick(creative)}
+                index={index}
               />
             ))}
           </div>
 
-          {/* Infinite Scroll Trigger */}
+          {/* Infinite scroll trigger */}
           {hasMore && (
-            <div
-              ref={observerTarget}
-              className="flex justify-center py-10"
-            >
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <div className="w-2 h-2 bg-serraglio-orange rounded-full animate-pulse"></div>
-                Carregando mais formatos...
+            <div ref={observerTarget} className="flex justify-center pt-8 pb-2">
+              <div className="flex gap-2">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 bg-[#ff4d00] rounded-full animate-pulse"
+                    style={{ animationDelay: `${i * 0.2}s` }}
+                  />
+                ))}
               </div>
             </div>
           )}
-        </main>
+        </div>
+
+        {/* ── BÔNUS ── */}
+        <div className="mt-6 border border-white/[0.12] rounded-2xl bg-black/40 p-5">
+          <h2 className="font-display font-black text-white text-lg uppercase tracking-tight mb-4 px-1">
+            Bônus
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {/* Prompts */}
+            <div
+              onClick={() => window.open(BONUS_LINKS.prompt, "_blank")}
+              className="group cursor-pointer"
+            >
+              <div className="relative border-2 border-[#ff4d00]/80 rounded-lg overflow-hidden shadow-[0_2px_16px_rgba(255,77,0,0.1)] hover:shadow-[0_4px_24px_rgba(255,77,0,0.25)] hover:border-[#ff4d00] transition-all duration-300">
+                <div className="bg-gradient-to-b from-[#1a0a00] to-[#120600] px-3 py-3 flex items-center gap-2.5">
+                  <div className="flex-shrink-0 w-12 h-12">
+                    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_1px_4px_rgba(255,77,0,0.5)]">
+                      <path
+                        d="M50,7 Q63,1 71,13 Q85,13 86,28 Q98,36 92,50 Q98,64 86,72 Q85,87 71,87 Q63,99 50,93 Q37,99 29,87 Q15,87 14,72 Q2,64 8,50 Q2,36 14,28 Q15,13 29,13 Q37,1 50,7 Z"
+                        fill="#ff4d00"
+                      />
+                      <text x="50" y="51" textAnchor="middle" dominantBaseline="middle" fill="white" fontFamily="League Spartan, sans-serif" fontWeight="900" fontSize="30">
+                        AI
+                      </text>
+                    </svg>
+                  </div>
+                  <h3 className="font-display font-bold text-white text-sm leading-snug flex-1 line-clamp-2">
+                    Prompts para Criativos com IA
+                  </h3>
+                </div>
+                <div className="bg-gradient-to-r from-[#fc4900] via-[#ffab8c] to-[#ed3a1d] px-4 py-3 flex items-center justify-center gap-2 group-hover:brightness-110 transition-all duration-200">
+                  <span className="font-display font-black text-white text-xs tracking-[0.15em] uppercase">
+                    Acessar
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Swipe File */}
+            <div
+              onClick={() => window.open(BONUS_LINKS.swipeFile, "_blank")}
+              className="group cursor-pointer"
+            >
+              <div className="relative border-2 border-[#ff4d00]/80 rounded-lg overflow-hidden shadow-[0_2px_16px_rgba(255,77,0,0.1)] hover:shadow-[0_4px_24px_rgba(255,77,0,0.25)] hover:border-[#ff4d00] transition-all duration-300">
+                <div className="bg-gradient-to-b from-[#1a0a00] to-[#120600] px-3 py-3 flex items-center gap-2.5">
+                  <div className="flex-shrink-0 w-12 h-12">
+                    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_1px_4px_rgba(255,77,0,0.5)]">
+                      <path
+                        d="M50,7 Q63,1 71,13 Q85,13 86,28 Q98,36 92,50 Q98,64 86,72 Q85,87 71,87 Q63,99 50,93 Q37,99 29,87 Q15,87 14,72 Q2,64 8,50 Q2,36 14,28 Q15,13 29,13 Q37,1 50,7 Z"
+                        fill="#ff4d00"
+                      />
+                      <text x="50" y="51" textAnchor="middle" dominantBaseline="middle" fill="white" fontFamily="League Spartan, sans-serif" fontWeight="900" fontSize="30">
+                        SF
+                      </text>
+                    </svg>
+                  </div>
+                  <h3 className="font-display font-bold text-white text-sm leading-snug flex-1 line-clamp-2">
+                    Swipe File de Anúncios
+                  </h3>
+                </div>
+                <div className="bg-gradient-to-r from-[#fc4900] via-[#ffab8c] to-[#ed3a1d] px-4 py-3 flex items-center justify-center gap-2 group-hover:brightness-110 transition-all duration-200">
+                  <span className="font-display font-black text-white text-xs tracking-[0.15em] uppercase">
+                    Acessar
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-white" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Footer */}
-        <footer className="border-t-2 border-serraglio-orange/20 mt-16">
-          <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-            <div className="flex justify-center mb-4">
-              <div className="h-1 w-32 bg-gradient-to-r from-transparent via-serraglio-orange/50 to-transparent rounded-full"></div>
-            </div>
-            <p className="text-gray-600 text-sm">
-              © 2025 - Todos os direitos reservados.
-            </p>
-          </div>
-        </footer>
+        <p className="text-center text-white/20 text-xs font-sans mt-6">
+          © 2025 Serraglio — {email}
+        </p>
       </div>
 
-      {/* Modal */}
-      <CreativeModal
+      <CreativeModalV2
         creative={selectedCreative}
         open={isModalOpen}
         onClose={handleCloseModal}

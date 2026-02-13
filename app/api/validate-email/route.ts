@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { completedForms } from "@/lib/data-store";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -14,12 +14,23 @@ export async function POST(request: Request) {
 
     const emailLower = email.toLowerCase().trim();
 
-    // Verifica se já completou o formulário
-    const completedForm = completedForms.has(emailLower);
+    const { data, error } = await supabase
+      .from("form_submissions")
+      .select("email")
+      .eq("email", emailLower)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao consultar Supabase:", error);
+      return NextResponse.json(
+        { error: "Erro ao validar e-mail" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
-      hasAccess: true, // Qualquer um pode acessar
-      completedForm,
+      hasAccess: true,
+      completedForm: !!data,
     });
   } catch (error) {
     return NextResponse.json(

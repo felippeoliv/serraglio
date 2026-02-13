@@ -16,6 +16,7 @@ const STEP_TITLES = ["Pessoal", "Ocupação", "Objetivos", "Métricas", "Comprom
 
 export default function WizardPage() {
   const router = useRouter();
+  const [showIntro, setShowIntro] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -80,11 +81,11 @@ export default function WizardPage() {
         break;
 
       case 3:
-        if (!formData.biggestChallenge || formData.biggestChallenge.length < 10) {
-          newErrors.biggestChallenge = "Descreva seu desafio (mínimo 10 caracteres)";
+        if (!formData.biggestChallenge || formData.biggestChallenge.trim().length === 0) {
+          newErrors.biggestChallenge = "Descreva seu desafio";
         }
-        if (!formData.mainGoal || formData.mainGoal.length < 10) {
-          newErrors.mainGoal = "Descreva seu objetivo (mínimo 10 caracteres)";
+        if (!formData.mainGoal || formData.mainGoal.trim().length === 0) {
+          newErrors.mainGoal = "Descreva seu objetivo";
         }
         break;
 
@@ -205,31 +206,47 @@ export default function WizardPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-black p-4 relative overflow-hidden">
-      {/* Sutil gradient background - Apple style */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-serraglio-orange/5"></div>
+  if (showIntro) {
+    return (
+      <div className="min-h-screen bg-black p-4 relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-serraglio-orange/5"></div>
 
-      <div className="relative z-10 max-w-5xl mx-auto py-12">
-        {/* Header - Apple minimalist */}
-        <div className="text-center mb-16 space-y-8 animate-fade-in">
+        <div className="relative z-10 max-w-2xl mx-auto text-center space-y-10 animate-fade-in">
           <div className="space-y-6">
             <h1 className="font-display text-5xl md:text-6xl font-black leading-[0.95] tracking-tight">
               <span className="text-white block">Leia e Responda com</span>
               <span className="gradient-serraglio-text block mt-2">Atenção</span>
             </h1>
 
-            <div className="max-w-2xl mx-auto space-y-4">
+            <div className="space-y-4">
               <p className="text-gray-300 text-lg leading-relaxed">
                 <span className="text-serraglio-orange font-bold">ATENÇÃO:</span> Toda semana eu escolho 5 novos alunos para fazer uma Consultoria e Auditoria de Criativos Gratuita
               </p>
               <p className="text-gray-400 text-base">
-                Para concorrer a uma dessas vagas, responda as perguntas abaixo com atenção e sinceridade (demora menos de 3 minutos).
+                Para concorrer a uma dessas vagas e acessar o produto, responda as perguntas abaixo com atenção e sinceridade.
               </p>
             </div>
           </div>
-        </div>
 
+          <Button
+            onClick={() => setShowIntro(false)}
+            className="gap-2 font-display font-bold text-lg px-8 py-6"
+            size="lg"
+          >
+            Responder Perguntas
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-black p-4 relative overflow-hidden">
+      {/* Sutil gradient background - Apple style */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-serraglio-orange/5"></div>
+
+      <div className="relative z-10 max-w-5xl mx-auto py-12">
         {/* Wizard Card - Apple minimalist */}
         <Card className="border border-white/10 backdrop-blur-xl bg-black/80 shadow-2xl rounded-2xl overflow-hidden animate-slide-up">
           <CardContent className="relative p-8 md:p-10">

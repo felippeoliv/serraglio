@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -59,10 +60,14 @@ export default function Home() {
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-12 space-y-5"
         >
-          <h1 className="font-display text-6xl md:text-7xl font-black leading-[0.95] tracking-tight">
-            <span className="text-white block">50 Formatos de</span>
-            <span className="gradient-serraglio-text block mt-2">Criativos</span>
-          </h1>
+          <Image
+            src="/logo.png"
+            alt="50 Formatos que Escalam"
+            width={400}
+            height={200}
+            className="mx-auto"
+            priority
+          />
 
           <p className="text-gray-300 text-lg md:text-xl max-w-md mx-auto leading-relaxed">
             Sua biblioteca exclusiva de criativos{" "}
@@ -82,7 +87,7 @@ export default function Home() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-3">
                   <label htmlFor="email" className="block text-sm font-semibold text-white tracking-wide">
-                    Digite seu e-mail para acessar
+                    Digite o e-mail que você usou na hora da compra
                   </label>
                   <Input
                     type="email"

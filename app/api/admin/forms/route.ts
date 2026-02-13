@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { completedForms } from "@/lib/data-store";
+import { supabase } from "@/lib/supabase";
 
-// Lista de emails admin autorizados
 const ADMIN_EMAILS = new Set([
   "felpsrdz@gmail.com",
   "dvncopy@gmail.com",
@@ -18,16 +17,23 @@ export async function POST(request: Request) {
       );
     }
 
-    // Converte o Map para array de objetos
-    const forms = Array.from(completedForms.entries()).map(([email, data]) => ({
-      email,
-      ...data,
-    }));
+    const { data, error } = await supabase
+      .from("form_submissions")
+      .select("*")
+      .order("submitted_at", { ascending: false });
+
+    if (error) {
+      console.error("Erro ao buscar formulários:", error);
+      return NextResponse.json(
+        { error: "Erro ao buscar formulários" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      forms,
-      total: forms.length,
+      forms: data || [],
+      total: data?.length || 0,
     });
   } catch (error) {
     console.error("Erro ao buscar formulários:", error);

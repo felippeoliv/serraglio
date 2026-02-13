@@ -46,6 +46,7 @@ export interface Creative {
   explanation?: string;
   howToApply?: string;
   exampleUrl?: string; // URL do vídeo/imagem exemplo
+  examples?: { id: string; name: string; type: "video" | "image" }[];
 }
 
 // Tipo para usuário
