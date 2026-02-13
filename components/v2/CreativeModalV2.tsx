@@ -89,7 +89,7 @@ export default function CreativeModalV2({ creative, open, onClose }: CreativeMod
 
             {/* Seletor de exemplos */}
             {examples.length > 1 && (
-              <div className="flex gap-2 mt-3">
+              <div className="flex flex-col sm:flex-row gap-2 mt-3">
                 {examples.map((ex, i) => (
                   <button
                     key={ex.id}
@@ -116,7 +116,7 @@ export default function CreativeModalV2({ creative, open, onClose }: CreativeMod
               onClick={() => window.open(creative.exampleUrl, "_blank")}
               className="border-2 border-[#ff4d00] rounded-xl overflow-hidden cursor-pointer hover:border-[#fc4900] transition-colors duration-200"
             >
-              <div className="bg-[#0e0400] grid grid-cols-3 gap-2 p-3">
+              <div className="bg-[#0e0400] grid grid-cols-1 sm:grid-cols-3 gap-2 p-3">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
