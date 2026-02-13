@@ -160,7 +160,7 @@ export default function DashboardPage() {
 
         {/* ── GRID CONTAINER ── */}
         <div className="border border-white/[0.12] rounded-2xl bg-black/40 p-5">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
             {displayedCreatives.map((creative, index) => (
               <CreativeCardV2
                 key={creative.id}
@@ -192,7 +192,7 @@ export default function DashboardPage() {
           <h2 className="font-display font-black text-white text-lg uppercase tracking-tight mb-4 px-1">
             Bônus
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
             {/* Prompts */}
             <div
               onClick={() => window.open(BONUS_LINKS.prompt, "_blank")}
