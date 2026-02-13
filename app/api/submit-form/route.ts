@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
     const emailLower = formData.email.toLowerCase().trim();
 
-    const { error } = await supabase.from("form_submissions").insert({
+    const { error } = await getSupabase().from("form_submissions").insert({
       email: emailLower,
       full_name: formData.fullName,
       phone: formData.phone,
@@ -67,7 +67,7 @@ export async function GET(request: Request) {
 
   const emailLower = email.toLowerCase().trim();
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("form_submissions")
     .select("*")
     .eq("email", emailLower)

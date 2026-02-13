@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 const ADMIN_EMAILS = new Set([
   "felpsrdz@gmail.com",
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("form_submissions")
       .select("*")
       .order("submitted_at", { ascending: false });

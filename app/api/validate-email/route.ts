@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
     const emailLower = email.toLowerCase().trim();
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("form_submissions")
       .select("email")
       .eq("email", emailLower)
