@@ -1,6 +1,25 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+const GOOGLE_SHEETS_URL = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+
+async function sendToGoogleSheets(data: Record<string, string | null>) {
+  if (!GOOGLE_SHEETS_URL) {
+    console.warn("GOOGLE_SHEETS_WEBHOOK_URL não configurada, pulando envio para Sheets");
+    return;
+  }
+
+  try {
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch (err) {
+    console.error("Erro ao enviar para Google Sheets:", err);
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
@@ -14,7 +33,7 @@ export async function POST(request: Request) {
 
     const emailLower = formData.email.toLowerCase().trim();
 
-    const { error } = await supabase.from("form_submissions").insert({
+    const submissionData = {
       email: emailLower,
       full_name: formData.fullName,
       phone: formData.phone,
@@ -26,7 +45,9 @@ export async function POST(request: Request) {
       ads_per_month: formData.adsPerMonth,
       monthly_revenue: formData.monthlyRevenue,
       commitment_level: formData.commitmentLevel,
-    });
+    };
+
+    const { error } = await supabase.from("form_submissions").insert(submissionData);
 
     if (error) {
       console.error("Erro ao inserir no Supabase:", error);
@@ -43,6 +64,14 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
+    // Envia para Google Sheets em background (não bloqueia a resposta)
+    // No Sheets, occupation_other fica dentro de occupation
+    const sheetsData = {
+      ...submissionData,
+      occupation: submissionData.occupation_other || submissionData.occupation,
+    };
+    sendToGoogleSheets(sheetsData);
 
     return NextResponse.json({
       success: true,
