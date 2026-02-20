@@ -15,8 +15,6 @@ import {
   Calendar,
   Award,
   DollarSign,
-  SlidersHorizontal,
-  ChevronDown,
   Briefcase,
   Megaphone,
   Flame,
@@ -211,14 +209,17 @@ export default function AdminPage() {
   }, [activeTab]);
 
   // Search & filter state
-  const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterOccupation, setFilterOccupation] = useState("");
-  const [filterRevenue, setFilterRevenue] = useState("");
-  const [filterAds, setFilterAds] = useState("");
-  const [filterCommitment, setFilterCommitment] = useState("");
+  const [filterOccupations, setFilterOccupations] = useState<string[]>([]);
+  const [filterRevenues, setFilterRevenues] = useState<string[]>([]);
+  const [filterAdsValues, setFilterAdsValues] = useState<string[]>([]);
+  const [filterCommitments, setFilterCommitments] = useState<string[]>([]);
   const [filterDateFrom, setFilterDateFrom] = useState("");
   const [filterDateTo, setFilterDateTo] = useState("");
+
+  const toggleFilter = (arr: string[], setArr: (v: string[]) => void, value: string) => {
+    setArr(arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value]);
+  };
 
   // Dashboard period state
   const [dashboardPeriodDays, setDashboardPeriodDays] = useState(30);
@@ -280,14 +281,14 @@ export default function AdminPage() {
           f.instagram.toLowerCase().includes(q);
         if (!matchesSearch) return false;
       }
-      // Occupation
-      if (filterOccupation && f.occupation !== filterOccupation) return false;
-      // Revenue
-      if (filterRevenue && f.monthly_revenue !== filterRevenue) return false;
-      // Ads
-      if (filterAds && f.ads_per_month !== filterAds) return false;
-      // Commitment
-      if (filterCommitment && !inCommitmentRange(f.commitment_level, filterCommitment))
+      // Occupation (multi)
+      if (filterOccupations.length > 0 && !filterOccupations.includes(normalizeOccupation(f.occupation))) return false;
+      // Revenue (multi)
+      if (filterRevenues.length > 0 && !filterRevenues.includes(f.monthly_revenue)) return false;
+      // Ads (multi)
+      if (filterAdsValues.length > 0 && !filterAdsValues.includes(normalizeAds(f.ads_per_month))) return false;
+      // Commitment (multi)
+      if (filterCommitments.length > 0 && !filterCommitments.some((range) => inCommitmentRange(f.commitment_level, range)))
         return false;
       // Date range
       if (filterDateFrom) {
@@ -301,17 +302,17 @@ export default function AdminPage() {
       }
       return true;
     });
-  }, [forms, searchQuery, filterOccupation, filterRevenue, filterAds, filterCommitment, filterDateFrom, filterDateTo]);
+  }, [forms, searchQuery, filterOccupations, filterRevenues, filterAdsValues, filterCommitments, filterDateFrom, filterDateTo]);
 
   const hasActiveFilters =
-    searchQuery || filterOccupation || filterRevenue || filterAds || filterCommitment || filterDateFrom || filterDateTo;
+    searchQuery || filterOccupations.length > 0 || filterRevenues.length > 0 || filterAdsValues.length > 0 || filterCommitments.length > 0 || filterDateFrom || filterDateTo;
 
   const clearFilters = () => {
     setSearchQuery("");
-    setFilterOccupation("");
-    setFilterRevenue("");
-    setFilterAds("");
-    setFilterCommitment("");
+    setFilterOccupations([]);
+    setFilterRevenues([]);
+    setFilterAdsValues([]);
+    setFilterCommitments([]);
     setFilterDateFrom("");
     setFilterDateTo("");
   };
@@ -632,112 +633,131 @@ export default function AdminPage() {
                   </button>
                 )}
               </div>
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`h-11 px-3 rounded-md border transition-all flex items-center gap-1.5 shrink-0 ${
-                  showFilters || hasActiveFilters
-                    ? "bg-[#ff4d00]/10 border-[#ff4d00]/30 text-[#ff4d00]"
-                    : "bg-white/5 border-white/10 text-white/50 hover:text-white/80"
-                }`}
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? "rotate-180" : ""}`} />
-                {hasActiveFilters && !showFilters && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff4d00]" />
-                )}
-              </button>
+              {hasActiveFilters && (
+                <Button
+                  onClick={clearFilters}
+                  variant="ghost"
+                  size="sm"
+                  className="h-11 px-3 gap-1.5 text-white/50 hover:text-white hover:bg-white/10 text-xs shrink-0 border border-white/10"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  Limpar
+                </Button>
+              )}
             </div>
 
-            {/* Collapsible filters panel */}
-            {showFilters && (
-              <div className="mb-4 p-3 sm:p-4 border border-white/10 rounded-xl bg-white/[0.02]">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">Ocupação</label>
-                    <select
-                      value={filterOccupation}
-                      onChange={(e) => setFilterOccupation(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 appearance-none cursor-pointer w-full"
+            {/* Filter chips - always visible */}
+            <div className="mb-4 space-y-3">
+              {/* Ocupação */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
+                  <Briefcase className="w-3 h-3 inline mr-1" />Ocupação
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(OCCUPATION_LABELS).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleFilter(filterOccupations, setFilterOccupations, key)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        filterOccupations.includes(key)
+                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
+                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
+                      }`}
                     >
-                      <option value="">Todas</option>
-                      {Object.entries(OCCUPATION_LABELS).map(([key, label]) => (
-                        <option key={key} value={key}>{label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">Faturamento</label>
-                    <select
-                      value={filterRevenue}
-                      onChange={(e) => setFilterRevenue(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 appearance-none cursor-pointer w-full"
-                    >
-                      <option value="">Todos</option>
-                      {Object.entries(REVENUE_LABELS).map(([key, label]) => (
-                        <option key={key} value={key}>{label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">Ads/Mês</label>
-                    <select
-                      value={filterAds}
-                      onChange={(e) => setFilterAds(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 appearance-none cursor-pointer w-full"
-                    >
-                      <option value="">Todos</option>
-                      {Object.entries(ADS_LABELS).map(([key, label]) => (
-                        <option key={key} value={key}>{label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">Comprometimento</label>
-                    <select
-                      value={filterCommitment}
-                      onChange={(e) => setFilterCommitment(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 appearance-none cursor-pointer w-full"
-                    >
-                      <option value="">Todos</option>
-                      {Object.entries(COMMITMENT_RANGES).map(([key, label]) => (
-                        <option key={key} value={key}>{label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">De</label>
-                    <input
-                      type="date"
-                      value={filterDateFrom}
-                      onChange={(e) => setFilterDateFrom(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 cursor-pointer w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-white/30 font-medium">Até</label>
-                    <input
-                      type="date"
-                      value={filterDateTo}
-                      onChange={(e) => setFilterDateTo(e.target.value)}
-                      className="h-9 px-2 sm:px-3 rounded-md bg-white/5 border border-white/10 text-sm text-white/80 cursor-pointer w-full"
-                    />
-                  </div>
+                      {label}
+                    </button>
+                  ))}
                 </div>
-                {hasActiveFilters && (
-                  <div className="mt-3 pt-3 border-t border-white/5">
-                    <Button
-                      onClick={clearFilters}
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 gap-1.5 text-white/50 hover:text-white hover:bg-white/10 text-xs"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                      Limpar todos os filtros
-                    </Button>
-                  </div>
-                )}
               </div>
-            )}
+
+              {/* Faturamento */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
+                  <DollarSign className="w-3 h-3 inline mr-1" />Faturamento
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(REVENUE_LABELS).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleFilter(filterRevenues, setFilterRevenues, key)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        filterRevenues.includes(key)
+                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
+                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ads/Mês */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
+                  <Megaphone className="w-3 h-3 inline mr-1" />Ads/Mês
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(ADS_LABELS).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleFilter(filterAdsValues, setFilterAdsValues, key)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        filterAdsValues.includes(key)
+                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
+                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Comprometimento */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
+                  <Flame className="w-3 h-3 inline mr-1" />Nível
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(COMMITMENT_RANGES).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleFilter(filterCommitments, setFilterCommitments, key)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        filterCommitments.includes(key)
+                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
+                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Datas */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
+                  <Calendar className="w-3 h-3 inline mr-1" />Período
+                </span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="date"
+                    value={filterDateFrom}
+                    onChange={(e) => setFilterDateFrom(e.target.value)}
+                    className="h-8 px-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 cursor-pointer"
+                  />
+                  <span className="text-white/20 text-xs">até</span>
+                  <input
+                    type="date"
+                    value={filterDateTo}
+                    onChange={(e) => setFilterDateTo(e.target.value)}
+                    className="h-8 px-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -819,6 +839,17 @@ export default function AdminPage() {
                             <p className="font-semibold text-white text-sm">
                               {form.full_name}
                             </p>
+                            {form.phone && (
+                              <a
+                                href={`https://wa.me/${form.phone.replace(/\D/g, "")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/40 text-xs hover:text-[#25D366] transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {form.phone}
+                              </a>
+                            )}
                           </TableCell>
                           <TableCell>
                             <p className="text-white/70 text-xs">{form.email}</p>
