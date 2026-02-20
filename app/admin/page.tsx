@@ -360,12 +360,12 @@ export default function AdminPage() {
     [filteredForms, selectedRows]
   );
 
-  const copySelectedPhones = useCallback(() => {
-    const phones = selectedForms
-      .map((f) => f.phone)
-      .filter(Boolean)
+  const copySelectedContacts = useCallback(() => {
+    const lines = selectedForms
+      .filter((f) => f.phone)
+      .map((f) => `${f.full_name}\t${f.phone}`)
       .join("\n");
-    navigator.clipboard.writeText(phones);
+    navigator.clipboard.writeText(lines);
   }, [selectedForms]);
 
   // Dashboard data
@@ -1057,13 +1057,13 @@ export default function AdminPage() {
                   Exportar CSV
                 </Button>
                 <Button
-                  onClick={copySelectedPhones}
+                  onClick={copySelectedContacts}
                   variant="ghost"
                   size="sm"
                   className="gap-1.5 text-white/60 hover:text-white hover:bg-white/10 text-xs"
                 >
                   <Copy className="w-3.5 h-3.5" />
-                  Copiar telefones
+                  Copiar contatos
                 </Button>
                 <div className="w-px h-5 bg-white/10" />
                 <button
