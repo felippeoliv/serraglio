@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import {
   Download,
   LogOut,
@@ -18,6 +18,10 @@ import {
   Briefcase,
   Megaphone,
   Flame,
+  CheckSquare,
+  Square,
+  MinusSquare,
+  Copy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -195,6 +199,10 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
+  // Multi-select state (Excel-style)
+  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
+  const lastClickedRef = useRef<number | null>(null);
+
   // Tab state
   const [activeTab, setActiveTab] = useState<"forms" | "dashboard">("forms");
   const [chartsReady, setChartsReady] = useState(false);
@@ -316,6 +324,49 @@ export default function AdminPage() {
     setFilterDateFrom("");
     setFilterDateTo("");
   };
+
+  // Multi-select handlers (depend on filteredForms)
+  const handleRowSelect = useCallback((email: string, index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (e.shiftKey && lastClickedRef.current !== null) {
+        const start = Math.min(lastClickedRef.current, index);
+        const end = Math.max(lastClickedRef.current, index);
+        for (let i = start; i <= end; i++) {
+          next.add(filteredForms[i].email);
+        }
+      } else if (e.ctrlKey || e.metaKey) {
+        if (next.has(email)) next.delete(email);
+        else next.add(email);
+      } else {
+        if (next.has(email)) next.delete(email);
+        else next.add(email);
+      }
+      return next;
+    });
+    lastClickedRef.current = index;
+  }, [filteredForms]);
+
+  const toggleSelectAll = useCallback(() => {
+    setSelectedRows((prev) => {
+      if (prev.size === filteredForms.length) return new Set();
+      return new Set(filteredForms.map((f) => f.email));
+    });
+  }, [filteredForms]);
+
+  const selectedForms = useMemo(
+    () => filteredForms.filter((f) => selectedRows.has(f.email)),
+    [filteredForms, selectedRows]
+  );
+
+  const copySelectedPhones = useCallback(() => {
+    const phones = selectedForms
+      .map((f) => f.phone)
+      .filter(Boolean)
+      .join("\n");
+    navigator.clipboard.writeText(phones);
+  }, [selectedForms]);
 
   // Dashboard data
   const dashboardForms = useMemo(() => {
@@ -463,7 +514,7 @@ export default function AdminPage() {
   }, [dashboardForms]);
 
   const exportToCSV = () => {
-    const data = activeTab === "forms" ? filteredForms : forms;
+    const data = selectedForms.length > 0 ? selectedForms : (activeTab === "forms" ? filteredForms : forms);
     const headers = [
       "Email", "Nome", "Telefone", "Instagram", "Ocupacao", "Outro",
       "Maior Desafio", "Objetivo Principal", "Anuncios/Mes", "Faturamento",
@@ -646,115 +697,121 @@ export default function AdminPage() {
               )}
             </div>
 
-            {/* Filter chips - always visible */}
-            <div className="mb-4 space-y-3">
-              {/* Ocupação */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
-                  <Briefcase className="w-3 h-3 inline mr-1" />Ocupação
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(OCCUPATION_LABELS).map(([key, label]) => (
-                    <button
-                      key={key}
-                      onClick={() => toggleFilter(filterOccupations, setFilterOccupations, key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                        filterOccupations.includes(key)
-                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
-                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+            {/* Filters */}
+            <div className="mb-5 border border-white/[0.06] rounded-2xl bg-white/[0.015] p-4 sm:p-5 space-y-4">
+              {/* Row 1: Ocupação + Faturamento */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <Briefcase className="w-3.5 h-3.5 text-white/25" />
+                    <span className="text-[11px] uppercase tracking-widest text-white/35 font-semibold">Ocupação</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(OCCUPATION_LABELS).map(([key, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => toggleFilter(filterOccupations, setFilterOccupations, key)}
+                        className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all duration-200 ${
+                          filterOccupations.includes(key)
+                            ? "bg-[#ff4d00] text-white ring-1 ring-[#ff4d00]/50 shadow-[0_0_12px_rgba(255,77,0,0.25)]"
+                            : "bg-white/[0.04] text-white/45 ring-1 ring-white/[0.06] hover:bg-white/[0.08] hover:text-white/70"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <DollarSign className="w-3.5 h-3.5 text-white/25" />
+                    <span className="text-[11px] uppercase tracking-widest text-white/35 font-semibold">Faturamento</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(REVENUE_LABELS).map(([key, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => toggleFilter(filterRevenues, setFilterRevenues, key)}
+                        className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all duration-200 ${
+                          filterRevenues.includes(key)
+                            ? "bg-[#ff4d00] text-white ring-1 ring-[#ff4d00]/50 shadow-[0_0_12px_rgba(255,77,0,0.25)]"
+                            : "bg-white/[0.04] text-white/45 ring-1 ring-white/[0.06] hover:bg-white/[0.08] hover:text-white/70"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Faturamento */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
-                  <DollarSign className="w-3 h-3 inline mr-1" />Faturamento
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(REVENUE_LABELS).map(([key, label]) => (
-                    <button
-                      key={key}
-                      onClick={() => toggleFilter(filterRevenues, setFilterRevenues, key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                        filterRevenues.includes(key)
-                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
-                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {/* Divider */}
+              <div className="border-t border-white/[0.04]" />
 
-              {/* Ads/Mês */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
-                  <Megaphone className="w-3 h-3 inline mr-1" />Ads/Mês
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(ADS_LABELS).map(([key, label]) => (
-                    <button
-                      key={key}
-                      onClick={() => toggleFilter(filterAdsValues, setFilterAdsValues, key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                        filterAdsValues.includes(key)
-                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
-                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+              {/* Row 2: Ads + Comprometimento + Período */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <Megaphone className="w-3.5 h-3.5 text-white/25" />
+                    <span className="text-[11px] uppercase tracking-widest text-white/35 font-semibold">Ads/Mês</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(ADS_LABELS).map(([key, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => toggleFilter(filterAdsValues, setFilterAdsValues, key)}
+                        className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all duration-200 ${
+                          filterAdsValues.includes(key)
+                            ? "bg-[#ff4d00] text-white ring-1 ring-[#ff4d00]/50 shadow-[0_0_12px_rgba(255,77,0,0.25)]"
+                            : "bg-white/[0.04] text-white/45 ring-1 ring-white/[0.06] hover:bg-white/[0.08] hover:text-white/70"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Comprometimento */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
-                  <Flame className="w-3 h-3 inline mr-1" />Nível
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(COMMITMENT_RANGES).map(([key, label]) => (
-                    <button
-                      key={key}
-                      onClick={() => toggleFilter(filterCommitments, setFilterCommitments, key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                        filterCommitments.includes(key)
-                          ? "bg-[#ff4d00] text-white shadow-lg shadow-[#ff4d00]/20"
-                          : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/80"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <Flame className="w-3.5 h-3.5 text-white/25" />
+                    <span className="text-[11px] uppercase tracking-widest text-white/35 font-semibold">Nível</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(COMMITMENT_RANGES).map(([key, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => toggleFilter(filterCommitments, setFilterCommitments, key)}
+                        className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all duration-200 ${
+                          filterCommitments.includes(key)
+                            ? "bg-[#ff4d00] text-white ring-1 ring-[#ff4d00]/50 shadow-[0_0_12px_rgba(255,77,0,0.25)]"
+                            : "bg-white/[0.04] text-white/45 ring-1 ring-white/[0.06] hover:bg-white/[0.08] hover:text-white/70"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Datas */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider text-white/30 font-medium w-24 shrink-0">
-                  <Calendar className="w-3 h-3 inline mr-1" />Período
-                </span>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="date"
-                    value={filterDateFrom}
-                    onChange={(e) => setFilterDateFrom(e.target.value)}
-                    className="h-8 px-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 cursor-pointer"
-                  />
-                  <span className="text-white/20 text-xs">até</span>
-                  <input
-                    type="date"
-                    value={filterDateTo}
-                    onChange={(e) => setFilterDateTo(e.target.value)}
-                    className="h-8 px-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/80 cursor-pointer"
-                  />
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <Calendar className="w-3.5 h-3.5 text-white/25" />
+                    <span className="text-[11px] uppercase tracking-widest text-white/35 font-semibold">Período</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="date"
+                      value={filterDateFrom}
+                      onChange={(e) => setFilterDateFrom(e.target.value)}
+                      className="h-8 px-2.5 rounded-lg bg-white/[0.04] ring-1 ring-white/[0.06] text-[11px] text-white/60 cursor-pointer focus:ring-[#ff4d00]/40 focus:outline-none transition-all"
+                    />
+                    <span className="text-white/15 text-[10px] font-medium">—</span>
+                    <input
+                      type="date"
+                      value={filterDateTo}
+                      onChange={(e) => setFilterDateTo(e.target.value)}
+                      className="h-8 px-2.5 rounded-lg bg-white/[0.04] ring-1 ring-white/[0.06] text-[11px] text-white/60 cursor-pointer focus:ring-[#ff4d00]/40 focus:outline-none transition-all"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -813,6 +870,20 @@ export default function AdminPage() {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-white/10 hover:bg-transparent">
+                      <TableHead className="w-10">
+                        <button
+                          onClick={toggleSelectAll}
+                          className="text-white/30 hover:text-white/60 transition-colors"
+                        >
+                          {selectedRows.size === filteredForms.length && filteredForms.length > 0 ? (
+                            <CheckSquare className="w-4 h-4 text-[#ff4d00]" />
+                          ) : selectedRows.size > 0 ? (
+                            <MinusSquare className="w-4 h-4 text-[#ff4d00]/60" />
+                          ) : (
+                            <Square className="w-4 h-4" />
+                          )}
+                        </button>
+                      </TableHead>
                       <TableHead className="text-white/50 font-display text-xs uppercase tracking-wider">Nome</TableHead>
                       <TableHead className="text-white/50 font-display text-xs uppercase tracking-wider">Contato</TableHead>
                       <TableHead className="text-white/50 font-display text-xs uppercase tracking-wider hidden md:table-cell">Ocupação</TableHead>
@@ -824,31 +895,41 @@ export default function AdminPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredForms.map((form) => (
+                    {filteredForms.map((form, idx) => (
                       <>
                         <TableRow
                           key={form.email}
-                          className="border-white/5 cursor-pointer hover:bg-white/[0.03]"
+                          className={`border-white/5 cursor-pointer transition-colors ${
+                            selectedRows.has(form.email)
+                              ? "bg-[#ff4d00]/[0.06] hover:bg-[#ff4d00]/[0.08]"
+                              : "hover:bg-white/[0.03]"
+                          }`}
                           onClick={() =>
                             setExpandedRow(
                               expandedRow === form.email ? null : form.email
                             )
                           }
                         >
+                          <TableCell className="w-10">
+                            <button
+                              onClick={(e) => handleRowSelect(form.email, idx, e)}
+                              className="text-white/30 hover:text-white/60 transition-colors"
+                            >
+                              {selectedRows.has(form.email) ? (
+                                <CheckSquare className="w-4 h-4 text-[#ff4d00]" />
+                              ) : (
+                                <Square className="w-4 h-4" />
+                              )}
+                            </button>
+                          </TableCell>
                           <TableCell>
                             <p className="font-semibold text-white text-sm">
                               {form.full_name}
                             </p>
                             {form.phone && (
-                              <a
-                                href={`https://wa.me/${form.phone.replace(/\D/g, "")}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-white/40 text-xs hover:text-[#25D366] transition-colors"
-                                onClick={(e) => e.stopPropagation()}
-                              >
+                              <span className="text-white/40 text-xs block">
                                 {form.phone}
-                              </a>
+                              </span>
                             )}
                           </TableCell>
                           <TableCell>
@@ -907,7 +988,7 @@ export default function AdminPage() {
                             key={`${form.email}-detail`}
                             className="border-white/5 hover:bg-transparent"
                           >
-                            <TableCell colSpan={8} className="p-0">
+                            <TableCell colSpan={9} className="p-0">
                               <div className="bg-white/[0.02] border-t border-white/5 px-3 py-4 sm:px-6 sm:py-5">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                   <div className="space-y-3">
@@ -956,6 +1037,41 @@ export default function AdminPage() {
                     ))}
                   </TableBody>
                 </Table>
+              </div>
+            )}
+
+            {/* Floating selection bar */}
+            {selectedRows.size > 0 && (
+              <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 px-5 py-3 flex items-center gap-4">
+                <span className="text-sm text-white/70">
+                  <span className="font-bold text-[#ff4d00]">{selectedRows.size}</span> selecionado{selectedRows.size > 1 ? "s" : ""}
+                </span>
+                <div className="w-px h-5 bg-white/10" />
+                <Button
+                  onClick={exportToCSV}
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5 text-white/60 hover:text-white hover:bg-white/10 text-xs"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Exportar CSV
+                </Button>
+                <Button
+                  onClick={copySelectedPhones}
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5 text-white/60 hover:text-white hover:bg-white/10 text-xs"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  Copiar telefones
+                </Button>
+                <div className="w-px h-5 bg-white/10" />
+                <button
+                  onClick={() => setSelectedRows(new Set())}
+                  className="text-white/30 hover:text-white/60 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             )}
           </>
